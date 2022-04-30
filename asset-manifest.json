@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/floor-check/static/css/main.5f23b9e7.css",
+    "main.js": "/floor-check/static/js/main.0e0f3fb1.js",
+    "static/js/787.e196689c.chunk.js": "/floor-check/static/js/787.e196689c.chunk.js",
+    "index.html": "/floor-check/index.html",
+    "main.5f23b9e7.css.map": "/floor-check/static/css/main.5f23b9e7.css.map",
+    "main.0e0f3fb1.js.map": "/floor-check/static/js/main.0e0f3fb1.js.map",
+    "787.e196689c.chunk.js.map": "/floor-check/static/js/787.e196689c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5f23b9e7.css",
+    "static/js/main.0e0f3fb1.js"
+  ]
+}
