@@ -1,4 +1,5 @@
 @import './styles/variables.scss';
+@import './styles/common.scss';
 
 body {
   margin: 0;
@@ -14,13 +15,13 @@ code {
     monospace;
 }
 
-button {
-  height: 28px;
-  min-width: 120px;
-  background-color: $header-background;
-  border: none;
-  box-shadow: 1px 1px 3px #2e4f55b1;
-  color: whitesmoke;
-  text-transform: uppercase;
-  cursor: pointer;
-}
+// button {
+//   height: 28px;
+//   min-width: 120px;
+//   background-color: $header-background;
+//   border: none;
+//   box-shadow: 1px 1px 3px #2e4f55b1;
+//   color: whitesmoke;
+//   text-transform: uppercase;
+//   cursor: pointer;
+// }
