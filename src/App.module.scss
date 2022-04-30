@@ -1,0 +1,45 @@
+@import './styles/variables.scss';
+
+.App {
+  text-align: center;
+}
+
+.pageHeader {
+    height: 48px;
+    background: $header-background;
+    display: flex;
+    align-items: center;
+    padding: 8px 20px;
+    color: white;
+    font-size: 24px
+}
+
+.form {
+  padding: 8px 20px;
+  background-color: $input-background;
+  height: 40px;
+  display: flex;
+  align-items: center;
+
+  label {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+
+  input {
+    margin: 0 12px;
+    flex: 1;
+    height: 24px;
+  }
+}
+
+.floors {
+  min-height: calc(100vh - 160px);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 20px;
+  background-color: $main-background;
+}
