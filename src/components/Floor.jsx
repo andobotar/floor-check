@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 
+import questionMark from '../assets/question-mark.png';
 import classes from './Floor.module.scss';
 
 export default function Floor({ project, handleRemove }) {
@@ -25,6 +26,9 @@ export default function Floor({ project, handleRemove }) {
         setProjectDisplayName(res2.data.collection.name);
       } catch (error) {
         console.log({ error });
+        if (error.response?.status === 404) {
+          setImgSrc(questionMark);
+        }
       }
     },
     [project]
@@ -35,7 +39,8 @@ export default function Floor({ project, handleRemove }) {
   }, [fetchStats]);
 
   return (
-    <div className={classes.card}>
+    // <div className={classes.card}>
+    <>
       <img className={classes.img} src={imgSrc} alt="( :-O)=" />
       <div className={classes.floorContainer}>
         <div className={classes.floor} onClick={fetchStats}>
@@ -46,6 +51,7 @@ export default function Floor({ project, handleRemove }) {
           <span className={classes.x}>+</span>
         </div>
       </div>
-    </div>
+    </>
+    // </div>
   );
 }
