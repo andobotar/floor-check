@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import Floor from './components/Floor';
+import LandingPage from './components/Landing';
 import { useLocalStorage } from './hooks/useStorage/useStorage';
+import { useWindowSize } from './hooks/useWindowSize';
 
 import classes from './App.module.scss';
-import { useWindowSize } from './hooks/useWindowSize';
 
 function App() {
   const [projectList, setProjectList] = useLocalStorage('projectList', [
@@ -25,6 +27,9 @@ function App() {
   const [projectLink, setProjectLink] = useState();
   const { windowWidth } = useWindowSize();
 
+  const [isLandingPage, setIsLandingPage] = useState(true);
+  const toggleTestPage = () => setIsLandingPage(!isLandingPage);
+
   const handleChange = e => {
     setProjectLink(e.target.value);
   };
@@ -41,27 +46,67 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className={classes.pageHeader}>FLOOR CHECK</div>
-      <div className={classes.form}>
-        <label htmlFor="projectLink">
-          {windowWidth > 640 ? 'Add OpenSea project link' : 'Add Link'}
-        </label>
-        <input
-          id="projectLink"
-          type="text"
-          value={projectLink}
-          onChange={handleChange}
-        />
-        <button onClick={handleSave} className="button">
-          Save
-        </button>
-      </div>
-      <div className={classes.floors}>
-        {projectList.map(project => (
-          <Floor key={project} project={project} handleRemove={handleRemove} />
-        ))}
-      </div>
+    <div className={classes.app}>
+      <DragDropContext
+        onDragStart={() => console.log('ondragstart')}
+        onDragUpdate={() => console.log('ondragupdate')}
+        onDragEnd={result => {
+          const updatedList = [...projectList];
+          const [reorderedItem] = updatedList.splice(result.source.index, 1);
+          updatedList.splice(result.destination.index, 0, reorderedItem);
+          setProjectList(updatedList);
+        }}
+      >
+        {isLandingPage ? (
+          <LandingPage toggleTestPage={toggleTestPage} />
+        ) : (
+          <>
+            <div className={classes.headerContainer}>
+              <p className={classes.header} onClick={toggleTestPage}>
+                FLOOR CHECK
+              </p>
+            </div>
+            <div className={classes.formContainer}>
+              <div className={classes.form}>
+                <label htmlFor="projectLink">
+                  {windowWidth > 640 ? 'Add OpenSea project link' : 'Add Link'}
+                </label>
+                <input
+                  id="projectLink"
+                  type="text"
+                  value={projectLink}
+                  onChange={handleChange}
+                />
+                <button onClick={handleSave} className="button">
+                  Save
+                </button>
+              </div>
+            </div>
+
+            <Droppable droppableId="floorCards">
+              {provided => (
+                <ul
+                  className={classes.floors}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {projectList.map((project, index) => {
+                    return (
+                      <Floor
+                        key={project}
+                        project={project}
+                        handleRemove={handleRemove}
+                        index={index}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </>
+        )}
+      </DragDropContext>
     </div>
   );
 }
