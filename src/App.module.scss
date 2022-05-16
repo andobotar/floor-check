@@ -1,45 +1,72 @@
 @import './styles/variables.scss';
 
-.App {
-  text-align: center;
-}
-
-.pageHeader {
+.app {
+  .headerContainer {
+    position: fixed;
+    width: 100%;
     height: 48px;
-    background: $header-background;
+    background-color: $header-background;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 8px 20px;
-    color: white;
-    font-size: 24px
-}
+    z-index: 1;
+    
+    .header {
+      width: 800px;
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+  
+  .formContainer {
+    margin-top: 48px;
+    position: fixed;
+    width: 100%;
+    height: 48px;
+    background-color: $input-background;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    z-index: 1;
 
-.form {
-  padding: 8px 20px;
-  background-color: $input-background;
-  height: 40px;
-  display: flex;
-  align-items: center;
+    .form {
+      width: 800px;
+      padding: 8px 20px;
+      height: 40px;
+      display: flex;
+      align-items: center;
 
-  label {
-    font-size: 16px;
-    font-weight: 600;
-    color: white;
+      label {
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+      }
+
+      input {
+        margin: 0 12px;
+        flex: 1;
+        height: 24px;
+      }
+    }
   }
 
-  input {
-    margin: 0 12px;
-    flex: 1;
-    height: 24px;
-  }
-}
+  .floors {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 108px 20px 20px;
+    background-color: $main-background;
 
-.floors {
-  min-height: calc(100vh - 160px);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  padding: 20px;
-  background-color: $main-background;
+    @media (max-width: 800px) {
+      padding: 8px;
+    }
+  }
 }
