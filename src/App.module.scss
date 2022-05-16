@@ -1,8 +1,6 @@
 @import './styles/variables.scss';
 
 .app {
-  position: relative;
-
   .headerContainer {
     position: fixed;
     width: 100%;
@@ -11,7 +9,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    z-index: 1;
+    
     .header {
       width: 800px;
       display: flex;
@@ -22,7 +21,7 @@
       cursor: pointer;
     }
   }
-
+  
   .formContainer {
     margin-top: 48px;
     position: fixed;
@@ -32,6 +31,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    z-index: 1;
 
     .form {
       width: 800px;

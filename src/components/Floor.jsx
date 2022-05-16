@@ -48,7 +48,6 @@ export default function Floor({ project, handleRemove, index }) {
           <img className={classes.img} src={imgSrc} alt="( :-O)=" />
           <div className={classes.floorContainer}>
             <div className={classes.floor} onClick={fetchStats}>
-            {/* <div className={classes.floor}> */}
               <div>{`${projectDisplayName}`}</div>
               <b>{`Ξ${floor}`}</b>
             </div>
