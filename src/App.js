@@ -5,6 +5,7 @@ import Floor from './components/Floor';
 import LandingPage from './components/Landing';
 import { useLocalStorage } from './hooks/useStorage/useStorage';
 import { useWindowSize } from './hooks/useWindowSize';
+import refreshIcon from './assets/refresh-icon-white.png';
 
 import classes from './App.module.scss';
 
@@ -45,6 +46,11 @@ function App() {
     setProjectList(projectList.filter(p => p !== project));
   };
 
+  const [refreshCounter, setRefreshCounter] = useState(0)
+  const refreshFloors = () => {
+    setRefreshCounter(c => c + 1)
+  };
+
   return (
     <div className={classes.app}>
       <DragDropContext
@@ -62,9 +68,12 @@ function App() {
         ) : (
           <>
             <div className={classes.headerContainer}>
-              <p className={classes.header} onClick={toggleTestPage}>
-                FLOOR CHECK
-              </p>
+              <div className={classes.header}>
+                <span className={classes.appName} onClick={toggleTestPage}>
+                  FLOOR CHECK
+                </span>
+                <img src={refreshIcon} alt="O" onClick={refreshFloors} />
+              </div>
             </div>
             <div className={classes.formContainer}>
               <div className={classes.form}>
@@ -97,6 +106,7 @@ function App() {
                         project={project}
                         handleRemove={handleRemove}
                         index={index}
+                        refreshCounter={refreshCounter}
                       />
                     );
                   })}

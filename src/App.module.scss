@@ -8,20 +8,31 @@
     background-color: $header-background;
     display: flex;
     justify-content: center;
-    align-items: center;
     z-index: 1;
     
     .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 800px;
       display: flex;
       align-items: center;
-      padding: 8px 0;
       color: white;
-      font-size: 24px;
-      cursor: pointer;
+
+      .appName {
+        font-size: 24px;
+        cursor: pointer;
+        margin-left: 12px;
+      }
+
+      img {
+        height: 24px;
+        width: 24px;
+        margin-right: 12px;
+      }
     }
   }
-  
+
   .formContainer {
     margin-top: 48px;
     position: fixed;
@@ -66,7 +77,7 @@
     background-color: $main-background;
 
     @media (max-width: 800px) {
-      padding: 8px;
+      padding: 20px 12px;
     }
   }
 }
