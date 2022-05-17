@@ -1,0 +1,34 @@
+@import '../styles/variables.scss';
+
+.container {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    background-color: $header-background;
+    color: white;
+    width: 192px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    box-shadow: 1px 4px 12px #826527;
+    
+    .menuItem {
+        font-size: 18px;
+        width: 160px;
+        height: 32px;
+        padding: 8px 16px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        &:hover {
+            background-color: lighten($header-background, 5%);
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}

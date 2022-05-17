@@ -31,6 +31,8 @@ function App() {
   const [isLandingPage, setIsLandingPage] = useState(true);
   const toggleTestPage = () => setIsLandingPage(!isLandingPage);
 
+  const [isMenuOpen, setIsMenuOpen] = useState({});
+
   const handleChange = e => {
     setProjectLink(e.target.value);
   };
@@ -107,6 +109,8 @@ function App() {
                         handleRemove={handleRemove}
                         index={index}
                         refreshCounter={refreshCounter}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
                       />
                     );
                   })}
