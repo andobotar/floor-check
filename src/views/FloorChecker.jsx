@@ -38,7 +38,7 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
   };
 
   const handleRemove = project => {
-    setProjectList(projectList.filter(p => p !== project));
+    setProjectList(projectList.filter(p => p.slug !== project));
   };
 
   const [refreshCounter, setRefreshCounter] = useState(0);

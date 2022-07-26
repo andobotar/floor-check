@@ -7,7 +7,7 @@ import FloorMenu from './FloorMenu';
 import classes from './Floor.module.scss';
 
 export default function Floor({
-  refreshCounter,
+  // refreshCounter,
   handleRemove,
   index,
   project,
@@ -19,7 +19,6 @@ export default function Floor({
   projectList,
   setProjectList
 }) {
-  console.log({ project  });
   const fetchFloor = useCallback(async () => {
     try {
       const res = await fetchProjectStats(project.slug);

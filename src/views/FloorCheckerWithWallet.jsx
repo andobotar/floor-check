@@ -17,7 +17,7 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
   const [connectedWallet, setConnectedWallet] = useState('');
 
   const handleRemove = project => {
-    setOwnProjectList(ownProjectList.filter(p => p !== project));
+    setOwnProjectList(ownProjectList.filter(p => p.slug !== project));
   };
 
   const [refreshCounter, setRefreshCounter] = useState(0);

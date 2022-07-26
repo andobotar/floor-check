@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import LandingPage from './components/Landing';
@@ -15,13 +15,19 @@ import { initialProjectList } from './constants/initialProjectList';
 function App() {
   const [page, setPage] = useState('landing');
   const [projectList, setProjectList] = useLocalStorage(
-    'projectList',
+    'fcProjectList',
     initialProjectList
   );
   const [ownProjectList, setOwnProjectList] = useSessionStorage(
     'ownProjectList',
     []
   );
+
+  useEffect(() => {
+    if (!projectList.length) {
+      setProjectList(initialProjectList)
+    }
+  }, [projectList.length, setProjectList])
 
   const handleProjectDrag = useCallback(result => {
     const updatedList = [...projectList];
@@ -34,16 +40,13 @@ function App() {
     const updatedList = [...ownProjectList];
     const [reorderedItem] = updatedList.splice(result.source.index, 1);
     updatedList.splice(result.destination.index, 0, reorderedItem);
-    console.log({ updatedList })
     setOwnProjectList(updatedList);
   }, [ownProjectList, setOwnProjectList]);
 
   const handleDragEnd = useCallback((result) => {
     if (page === 'floorChecker') {
-      console.log('lofasz')
       handleProjectDrag(result);
     } else {
-      console.log('lofasz2')
       handleOwnProjectDrag(result);
     }
   }, [handleOwnProjectDrag, handleProjectDrag, page]);
