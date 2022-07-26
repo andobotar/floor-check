@@ -1,125 +1,75 @@
-import { useState } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { useCallback, useState } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import Floor from './components/Floor';
 import LandingPage from './components/Landing';
-import { useLocalStorage } from './hooks/useStorage/useStorage';
-import { useWindowSize } from './hooks/useWindowSize';
-import refreshIcon from './assets/refresh-icon-white.png';
+import {
+  useLocalStorage,
+  useSessionStorage
+} from './hooks/useStorage/useStorage';
+import FloorChecker from './views/FloorChecker';
 
 import classes from './App.module.scss';
+import FloorCheckerWithWallet from './views/FloorCheckerWithWallet';
+import { initialProjectList } from './constants/initialProjectList';
 
 function App() {
-  const [projectList, setProjectList] = useLocalStorage('projectList', [
-    'impostors-genesis-aliens',
-    'veefriends',
-    'veefriends-series-2',
-    'thehabibiz',
-    'thebibiz',
-    'curiocardswrapper',
-    'satoshirunnersofficial',
-    'genetic-chain-midnight-runner-pass',
-    'superfarm',
-    'samot-club',
-    'we-are-kloud',
-    '0xidentitiesgen1'
-  ]);
+  const [page, setPage] = useState('landing');
+  const [projectList, setProjectList] = useLocalStorage(
+    'projectList',
+    initialProjectList
+  );
+  const [ownProjectList, setOwnProjectList] = useSessionStorage(
+    'ownProjectList',
+    []
+  );
 
-  const [projectLink, setProjectLink] = useState();
-  const { windowWidth } = useWindowSize();
+  const handleProjectDrag = useCallback(result => {
+    const updatedList = [...projectList];
+    const [reorderedItem] = updatedList.splice(result.source.index, 1);
+    updatedList.splice(result.destination.index, 0, reorderedItem);
+    setProjectList(updatedList);
+  }, [projectList, setProjectList]);
 
-  const [isLandingPage, setIsLandingPage] = useState(true);
-  const toggleTestPage = () => setIsLandingPage(!isLandingPage);
+  const handleOwnProjectDrag = useCallback(result => {
+    const updatedList = [...ownProjectList];
+    const [reorderedItem] = updatedList.splice(result.source.index, 1);
+    updatedList.splice(result.destination.index, 0, reorderedItem);
+    console.log({ updatedList })
+    setOwnProjectList(updatedList);
+  }, [ownProjectList, setOwnProjectList]);
 
-  const [isMenuOpen, setIsMenuOpen] = useState({});
-
-  const handleChange = e => {
-    setProjectLink(e.target.value);
-  };
-
-  const handleSave = () => {
-    const lastSlashIndex = projectLink.lastIndexOf('/');
-    const name = projectLink.substring(lastSlashIndex + 1);
-    setProjectList([...projectList, name]);
-    setProjectLink('');
-  };
-
-  const handleRemove = project => {
-    setProjectList(projectList.filter(p => p !== project));
-  };
-
-  const [refreshCounter, setRefreshCounter] = useState(0)
-  const refreshFloors = () => {
-    setRefreshCounter(c => c + 1)
-  };
+  const handleDragEnd = useCallback((result) => {
+    if (page === 'floorChecker') {
+      console.log('lofasz')
+      handleProjectDrag(result);
+    } else {
+      console.log('lofasz2')
+      handleOwnProjectDrag(result);
+    }
+  }, [handleOwnProjectDrag, handleProjectDrag, page]);
 
   return (
     <div className={classes.app}>
       <DragDropContext
         onDragStart={() => console.log('ondragstart')}
         onDragUpdate={() => console.log('ondragupdate')}
-        onDragEnd={result => {
-          const updatedList = [...projectList];
-          const [reorderedItem] = updatedList.splice(result.source.index, 1);
-          updatedList.splice(result.destination.index, 0, reorderedItem);
-          setProjectList(updatedList);
-        }}
+        onDragEnd={(result) => handleDragEnd(result)}
       >
-        {isLandingPage ? (
-          <LandingPage toggleTestPage={toggleTestPage} />
-        ) : (
-          <>
-            <div className={classes.headerContainer}>
-              <div className={classes.header}>
-                <span className={classes.appName} onClick={toggleTestPage}>
-                  FLOOR CHECK
-                </span>
-                <img src={refreshIcon} alt="O" onClick={refreshFloors} />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <div className={classes.form}>
-                <label htmlFor="projectLink">
-                  {windowWidth > 640 ? 'Add OpenSea project link' : 'Add Link'}
-                </label>
-                <input
-                  id="projectLink"
-                  type="text"
-                  value={projectLink}
-                  onChange={handleChange}
-                />
-                <button onClick={handleSave} className="button">
-                  Save
-                </button>
-              </div>
-            </div>
-
-            <Droppable droppableId="floorCards">
-              {provided => (
-                <ul
-                  className={classes.floors}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {projectList.map((project, index) => {
-                    return (
-                      <Floor
-                        key={project}
-                        project={project}
-                        handleRemove={handleRemove}
-                        index={index}
-                        refreshCounter={refreshCounter}
-                        isMenuOpen={isMenuOpen}
-                        setIsMenuOpen={setIsMenuOpen}
-                      />
-                    );
-                  })}
-                  {provided.placeholder}
-                </ul>
-              )}
-            </Droppable>
-          </>
-        )}
+        {page === 'landing' ? <LandingPage setPage={setPage} /> : null}
+        {page === 'floorChecker' ? (
+          <FloorChecker
+            setPage={setPage}
+            projectList={projectList}
+            setProjectList={setProjectList}
+          />
+        ) : null}
+        {page === 'floorCheckerWithWallet' ? (
+          <FloorCheckerWithWallet
+            setPage={setPage}
+            ownProjectList={ownProjectList}
+            setOwnProjectList={setOwnProjectList}
+          />
+        ) : null}
       </DragDropContext>
     </div>
   );

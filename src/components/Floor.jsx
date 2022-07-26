@@ -1,61 +1,59 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import questionMark from '../assets/question-mark.png';
 import hambi from '../assets/hambi.png';
-import { fetchProjectData, fetchProjectStats } from '../httpRequests/requests';
+import { fetchProjectStats } from '../httpRequests/requests';
 import FloorMenu from './FloorMenu';
 import classes from './Floor.module.scss';
 
-export default function Floor({ refreshCounter, handleRemove, index, project, isMenuOpen, setIsMenuOpen }) {
-  const [projectDisplayName, setProjectDisplayName] = useState('');
-  const [floor, setFloor] = useState('---');
-  const [imgSrc, setImgSrc] = useState();
-  // const [openseaLink, setOpenseaLink] = useState('');
-
+export default function Floor({
+  refreshCounter,
+  handleRemove,
+  index,
+  project,
+  isMenuOpen,
+  setIsMenuOpen,
+  ownProjectList,
+  setOwnProjectList,
+  isOwn,
+  projectList,
+  setProjectList
+}) {
+  console.log({ project  });
   const fetchFloor = useCallback(async () => {
-    setFloor('---');
     try {
-      const res = await fetchProjectStats(project);
-      setFloor(res.data.stats.floor_price);
-    } catch (error) {
-      console.log({ error });
-    }
-  }, [project]);
-
-  const fetchImg = useCallback(async () => {
-    try {
-      const res = await fetchProjectData(project);
-      setImgSrc(res.data.collection.image_url);
-      setProjectDisplayName(res.data.collection.name);
-      // setOpenseaLink()
-    } catch (error) {
-      console.log({ error });
-      if (error.response?.status === 404) {
-        setImgSrc(questionMark);
+      const res = await fetchProjectStats(project.slug);
+      const floor = res.data.stats.floor_price;
+      const savedProjectList = isOwn ? ownProjectList : projectList
+      const updatedProjectList = savedProjectList.map(savedProject => {
+        if (savedProject.slug === project.slug) {
+          return {
+            ...savedProject,
+            floor
+          };
+        }
+        return savedProject;
+      });
+      if (isOwn) {
+        setOwnProjectList(updatedProjectList)
+      } else {
+        setProjectList(updatedProjectList)
       }
+    } catch (error) {
+      console.log({ error });
     }
-  }, [project]);
-
-  useEffect(() => {
-    fetchFloor();
-    fetchImg();
-  }, [fetchFloor, fetchImg]);
-
-  useEffect(() => {
-    fetchFloor();
-  }, [refreshCounter, fetchFloor]);
+  }, [isOwn, ownProjectList, project.slug, projectList, setOwnProjectList, setProjectList]);
 
   const handleMenuClick = () => {
-    if (isMenuOpen[project]) {
-      setIsMenuOpen({})
+    if (isMenuOpen[project.slug]) {
+      setIsMenuOpen({});
     } else {
-      setIsMenuOpen({ [project]: true })
+      setIsMenuOpen({ [project.slug]: true });
     }
   };
 
   return (
-    <Draggable key={project} draggableId={project} index={index}>
+    <Draggable key={project.slug} draggableId={project.slug} index={index}>
       {provided => (
         <div
           className={classes.card}
@@ -63,18 +61,18 @@ export default function Floor({ refreshCounter, handleRemove, index, project, is
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <img className={classes.img} src={imgSrc} alt="( :-O)=" />
+          <img className={classes.img} src={project.imageUrl} alt="( :-O)=" />
           <div className={classes.floorContainer}>
             <div className={classes.floor} onClick={fetchFloor}>
-              <div>{`${projectDisplayName}`}</div>
-              <b>{`Ξ${floor}`}</b>
+              <div>{`${project.name}`}</div>
+              <b>{`Ξ${project.floor}`}</b>
             </div>
             <div className={classes.menuButton} onClick={handleMenuClick}>
               <img src={hambi} alt="Ξ" />
-              {isMenuOpen[project] ? (
+              {isMenuOpen[project.slug] ? (
                 <FloorMenu
-                  handleRemove={() => handleRemove(project)}
-                  openseaLink={`https://opensea.io/collection/${project}`}
+                  handleRemove={() => handleRemove(project.slug)}
+                  openseaLink={`https://opensea.io/collection/${project.slug}`}
                 />
               ) : null}
             </div>
