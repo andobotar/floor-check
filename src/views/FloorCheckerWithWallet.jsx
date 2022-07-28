@@ -10,7 +10,12 @@ import questionMark from '../assets/question-mark.png';
 
 import classes from '../App.module.scss';
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+let provider
+try {
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+} catch (e) {
+  console.warn('web3provider not found', e)
+}
 
 export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwnProjectList }) {
   const [isMenuOpen, setIsMenuOpen] = useState({});
@@ -72,6 +77,7 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
           <img src={refreshIcon} alt="O" onClick={refreshFloors} />
         </div>
       </div>
+
       <div className={classes.formContainer}>
         <div className={classes.walletInfo}>
           {connectedWallet ? (
@@ -82,33 +88,40 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
         </div>
       </div>
 
-      <Droppable droppableId="floorCards">
-        {provided => (
-          <ul
-            className={classes.floors}
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {connectedWallet && ownProjectList.map((project, index) => {
-              return (
-                <Floor
-                  key={project}
-                  project={project}
-                  handleRemove={handleRemove}
-                  index={index}
-                  refreshCounter={refreshCounter}
-                  isMenuOpen={isMenuOpen}
-                  setIsMenuOpen={setIsMenuOpen}
-                  ownProjectList={ownProjectList}
-                  setOwnProjectList={setOwnProjectList}
-                  isOwn
-                />
-              );
-            })}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
+      {!provider ? (
+        <p style={{ paddingTop: 120, textAlign: 'center' }}>you need to install metamask</p>
+      ) : (
+        <>
+          <Droppable droppableId="floorCards">
+            {provided => (
+              <ul
+                className={classes.floors}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {connectedWallet &&
+                  ownProjectList.map((project, index) => {
+                    return (
+                      <Floor
+                        key={project}
+                        project={project}
+                        handleRemove={handleRemove}
+                        index={index}
+                        refreshCounter={refreshCounter}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                        ownProjectList={ownProjectList}
+                        setOwnProjectList={setOwnProjectList}
+                        isOwn
+                      />
+                    );
+                  })}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </>
+      )}
     </>
   );
 }

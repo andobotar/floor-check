@@ -83,7 +83,7 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
             {projectList.map((project, index) => {
               return (
                 <Floor
-                  key={project}
+                  key={project.slug}
                   project={project}
                   handleRemove={handleRemove}
                   index={index}

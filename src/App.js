@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import LandingPage from './components/Landing';
@@ -9,8 +9,9 @@ import {
 import FloorChecker from './views/FloorChecker';
 
 import classes from './App.module.scss';
-import FloorCheckerWithWallet from './views/FloorCheckerWithWallet';
 import { initialProjectList } from './constants/initialProjectList';
+
+const FloorCheckerWithWallet = React.lazy(() => import('./views/FloorCheckerWithWallet'));
 
 function App() {
   const [page, setPage] = useState('landing');
@@ -56,7 +57,7 @@ function App() {
       <DragDropContext
         onDragStart={() => console.log('ondragstart')}
         onDragUpdate={() => console.log('ondragupdate')}
-        onDragEnd={(result) => handleDragEnd(result)}
+        onDragEnd={result => handleDragEnd(result)}
       >
         {page === 'landing' ? <LandingPage setPage={setPage} /> : null}
         {page === 'floorChecker' ? (
@@ -67,11 +68,13 @@ function App() {
           />
         ) : null}
         {page === 'floorCheckerWithWallet' ? (
-          <FloorCheckerWithWallet
-            setPage={setPage}
-            ownProjectList={ownProjectList}
-            setOwnProjectList={setOwnProjectList}
-          />
+          <Suspense fallback={<h4>loading...</h4>}>
+            <FloorCheckerWithWallet
+              setPage={setPage}
+              ownProjectList={ownProjectList}
+              setOwnProjectList={setOwnProjectList}
+            />
+          </Suspense>
         ) : null}
       </DragDropContext>
     </div>
