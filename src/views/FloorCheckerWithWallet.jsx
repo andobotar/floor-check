@@ -31,9 +31,16 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
   };
 
   const connectWallet = async () => {
-    await provider.send('eth_requestAccounts', []);
-    const signer = provider.getSigner();
-    setConnectedWallet(signer.provider.provider.selectedAddress);
+    if (!provider) {
+      alert('Install Metamask, please')
+      return
+    }
+    // 'eth_requestAccounts' returns an array with one element (always one, LOL)
+    const accounts = await provider.send('eth_requestAccounts', []);
+    console.log({ accounts });
+    setConnectedWallet(accounts[0])
+    // const signer = provider.getSigner();
+    // setConnectedWallet(signer.provider.provider.selectedAddress);
   };
 
   const fetchMyProjects = useCallback(async () => {

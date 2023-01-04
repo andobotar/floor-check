@@ -1,19 +1,20 @@
 {
   "name": "floor-check",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "homepage": "https://andobotar.github.io/floor-check/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
+    "alchemy-sdk": "^2.2.5",
     "axios": "^0.27.2",
     "ethers": "^5.6.9",
-    "node-sass": "^5.0.0",
-    "react": "^18.1.0",
+    "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
+    "sass": "^1.57.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

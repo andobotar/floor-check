@@ -1,13 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import hambi from '../assets/hambi.png';
-import { fetchProjectStats } from '../httpRequests/requests';
+import { fetchProjectStats, getFloorByContractAddress } from '../httpRequests/requests';
 import FloorMenu from './FloorMenu';
 import classes from './Floor.module.scss';
+import { createPortal } from 'react-dom';
+import ConfirmModal from './ConfirmModal';
 
 export default function Floor({
-  // refreshCounter,
   handleRemove,
   index,
   project,
@@ -19,8 +20,11 @@ export default function Floor({
   projectList,
   setProjectList
 }) {
+  const [showModal, setShowModal] = useState(false);
+
   const fetchFloor = useCallback(async () => {
     try {
+      getFloorByContractAddress('0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109');
       const res = await fetchProjectStats(project.slug);
       const floor = res.data.stats.floor_price;
       const savedProjectList = isOwn ? ownProjectList : projectList
@@ -51,6 +55,8 @@ export default function Floor({
     }
   };
 
+  const toggleShowModal = () => setShowModal(current => !current);
+
   return (
     <Draggable key={project.slug} draggableId={project.slug} index={index}>
       {provided => (
@@ -70,11 +76,22 @@ export default function Floor({
               <img src={hambi} alt="Ξ" />
               {isMenuOpen[project.slug] ? (
                 <FloorMenu
-                  handleRemove={() => handleRemove(project.slug)}
                   openseaLink={`https://opensea.io/collection/${project.slug}`}
+                  gigamartLink={`https://gigamart.com/collections/${project.slug}`}
+                  blurioLink={`https://blur.io/collection/${project.slug}`}
+                  toggleShowModal={toggleShowModal}
                 />
               ) : null}
             </div>
+            {showModal &&
+              createPortal(
+                <ConfirmModal
+                  projectName={project.name}
+                  handleClose={toggleShowModal}
+                  handleOk={() => handleRemove(project.slug)}
+                />,
+                document.body
+              )}
           </div>
         </div>
       )}

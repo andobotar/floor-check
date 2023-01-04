@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { alchemy } from '../utils/alchemy';
+
 export const fetchProjectStats = async projectName =>
   await axios.get(
     `https://api.opensea.io/api/v1/collection/${projectName}/stats`
@@ -25,3 +27,8 @@ export const fetchNameAndImg = async projectSlug => {
     }
   }
 };
+
+export const getFloorByContractAddress = async address => {
+  const resp = await alchemy.nft.getFloorPrice(address)
+  console.log({ resp })
+}

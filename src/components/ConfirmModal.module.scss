@@ -1,0 +1,47 @@
+$buttonHeight: 36px;
+$buttonWidth: 112px;
+
+.modalBackdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+
+    .modal {
+        background-color: white;
+        border: 2px solid rgb(240, 240, 240);
+        border-radius: 12px;
+        position: fixed;
+        width: 300px;
+        top: calc(50vh - 75px);
+        left: calc(50% - 170px);
+        padding: 18px;
+
+        .text {
+            margin: 0;
+        }
+
+        .buttonContainer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+
+            .cancelButton {
+                height: $buttonHeight;
+                width: $buttonWidth;
+                color: tomato;
+                background-color: lighten(tomato, 30%);
+            }
+            
+            .okButton {
+                height: $buttonHeight;
+                width: $buttonWidth;
+                color: green;
+                background-color: lighten(green, 70%);
+            }
+        }
+    }
+}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
-import refreshIcon from '../assets/refresh-icon-white.png';
 import Floor from '../components/Floor';
 import { useWindowSize } from '../hooks/useWindowSize';
 import questionMark from '../assets/question-mark.png';
@@ -41,11 +40,6 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
     setProjectList(projectList.filter(p => p.slug !== project));
   };
 
-  const [refreshCounter, setRefreshCounter] = useState(0);
-  const refreshFloors = () => {
-    setRefreshCounter(c => c + 1);
-  };
-
   return (
     <>
       <div className={classes.headerContainer}>
@@ -53,7 +47,7 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
           <span className={classes.appName} onClick={() => setPage('landing')}>
             FLOOR CHECK
           </span>
-          <img src={refreshIcon} alt="O" onClick={refreshFloors} />
+          {/* <img src={refreshIcon} alt="O" onClick={refreshFloors} /> */}
         </div>
       </div>
       <div className={classes.formContainer}>
@@ -87,7 +81,6 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
                   project={project}
                   handleRemove={handleRemove}
                   index={index}
-                  refreshCounter={refreshCounter}
                   isMenuOpen={isMenuOpen}
                   setIsMenuOpen={setIsMenuOpen}
                   isOwn={false}
