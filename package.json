@@ -1,6 +1,6 @@
 {
   "name": "floor-check",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://andobotar.github.io/floor-check/",
   "private": true,
   "dependencies": {
