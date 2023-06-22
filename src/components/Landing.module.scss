@@ -9,6 +9,21 @@
   height: 100vh;
   background-color: $input-background;
 
+  .outOfServiceMessage {
+    background-color: rgba(white, 10%);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h4 {
+      margin-bottom: 8px;
+    }
+  }
+
   .button {
     display: flex;
     justify-content: center;
