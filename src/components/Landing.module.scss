@@ -12,12 +12,13 @@
   .outOfServiceMessage {
     background-color: rgba(white, 10%);
     border-radius: 12px;
-    padding: 12px;
+    padding: 0 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 89%;
 
     h4 {
       margin-bottom: 8px;

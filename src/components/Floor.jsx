@@ -2,7 +2,10 @@ import { useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import hambi from '../assets/hambi.png';
-import { fetchProjectStats } from '../httpRequests/requests';
+import {
+  // fetchProjectStats,
+  getFloorByContractAddress
+} from '../httpRequests/requests';
 import FloorMenu from './FloorMenu';
 import classes from './Floor.module.scss';
 import { createPortal } from 'react-dom';
@@ -21,15 +24,19 @@ export default function Floor({
   setProjectList
 }) {
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState()
+  const [isLoading, setIsLoading] = useState();
+
+  console.log({ project });
 
   const fetchFloor = useCallback(async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      // getFloorByContractAddress('0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109');
-      const res = await fetchProjectStats(project.slug);
+      const res = getFloorByContractAddress(
+        '0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109'
+      );
+      // const res = await fetchProjectStats(project.slug);
       const floor = res.data.stats.floor_price;
-      const savedProjectList = isOwn ? ownProjectList : projectList
+      const savedProjectList = isOwn ? ownProjectList : projectList;
       const updatedProjectList = savedProjectList.map(savedProject => {
         if (savedProject.slug === project.slug) {
           return {
@@ -40,16 +47,23 @@ export default function Floor({
         return savedProject;
       });
       if (isOwn) {
-        setOwnProjectList(updatedProjectList)
+        setOwnProjectList(updatedProjectList);
       } else {
-        setProjectList(updatedProjectList)
-      } 
-      setIsLoading(false)
+        setProjectList(updatedProjectList);
+      }
+      setIsLoading(false);
     } catch (error) {
       console.log({ error });
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [isOwn, ownProjectList, project.slug, projectList, setOwnProjectList, setProjectList]);
+  }, [
+    isOwn,
+    ownProjectList,
+    project.slug,
+    projectList,
+    setOwnProjectList,
+    setProjectList
+  ]);
 
   const handleMenuClick = () => {
     if (isMenuOpen[project.slug]) {
