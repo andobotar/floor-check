@@ -3,8 +3,8 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import hambi from '../assets/hambi.png';
 import {
-  // fetchProjectStats,
-  getFloorByContractAddress
+  fetchProjectStats
+  // getFloorByContractAddress
 } from '../httpRequests/requests';
 import FloorMenu from './FloorMenu';
 import classes from './Floor.module.scss';
@@ -31,10 +31,10 @@ export default function Floor({
   const fetchFloor = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = getFloorByContractAddress(
-        '0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109'
-      );
-      // const res = await fetchProjectStats(project.slug);
+      // const res = getFloorByContractAddress(
+      //   '0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109'
+      // );
+      const res = await fetchProjectStats(project.slug);
       const floor = res.data.stats.floor_price;
       const savedProjectList = isOwn ? ownProjectList : projectList;
       const updatedProjectList = savedProjectList.map(savedProject => {
