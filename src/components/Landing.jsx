@@ -6,11 +6,12 @@ export default function TestPage({ setPage }) {
   return (
     <div className={classes.container}>
       <div className={classes.outOfServiceMessage}>
-        <h4>Opensea fucked us over by changing its endpoints</h4>
-        <h5>
+        <h3>FLOOR CHECK is temporarily down</h3>
+        <h5>Opensea changed its endpoints and we can't get data for now.</h5>
+        <h6>
           I'm working on a solution but I don't have a lot of time so it's gonna
           take a while. Sorry.
-        </h5>
+        </h6>
       </div>
       <div onClick={() => setPage('floorChecker')} className={classes.button}>
         FLOOR CHECKER - ANY NFT
