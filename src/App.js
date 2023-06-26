@@ -1,7 +1,7 @@
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-import LandingPage from './components/TestPage';
+import LandingPage from './components/Landing';
 import {
   useLocalStorage,
   useSessionStorage
@@ -16,8 +16,6 @@ const FloorCheckerWithWallet = React.lazy(() =>
 );
 
 function App() {
-  console.log('react app kutya', process.env.REACT_APP_KUTYA);
-  console.log('sima kutya', process.env.KUTYA);
   const [page, setPage] = useState('landing');
   const [projectList, setProjectList] = useLocalStorage(
     'fcProjectList',
