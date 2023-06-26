@@ -11,9 +11,6 @@ import { fetchNameAndImg } from '../httpRequests/requests';
 export default function FloorChecker({ projectList, setPage, setProjectList }) {
   const { windowWidth } = useWindowSize();
 
-  console.log('react app kutya', process.env.REACT_APP_KUTYA);
-  console.log('sima kutya', process.env.KUTYA);
-
   const [isMenuOpen, setIsMenuOpen] = useState({});
   const [projectLink, setProjectLink] = useState('');
 
