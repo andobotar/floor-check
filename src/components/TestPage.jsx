@@ -1,8 +1,7 @@
 import React from 'react';
-
 import classes from './Landing.module.scss';
 
-export default function Landing({ setPage }) {
+export default function TestPage({ setPage }) {
   return (
     <div className={classes.container}>
       <div className={classes.outOfServiceMessage}>

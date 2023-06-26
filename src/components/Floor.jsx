@@ -26,14 +26,9 @@ export default function Floor({
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState();
 
-  console.log({ project });
-
   const fetchFloor = useCallback(async () => {
     setIsLoading(true);
     try {
-      // const res = getFloorByContractAddress(
-      //   '0x07Ce82f414A42D9A73B0bD9EC23c249d446A0109'
-      // );
       const res = await fetchProjectStats(project.slug);
       const floor = res.data.stats.floor_price;
       const savedProjectList = isOwn ? ownProjectList : projectList;

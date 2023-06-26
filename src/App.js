@@ -1,7 +1,7 @@
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-import LandingPage from './components/Landing';
+import LandingPage from './components/TestPage';
 import {
   useLocalStorage,
   useSessionStorage
@@ -11,9 +11,13 @@ import FloorChecker from './views/FloorChecker';
 import classes from './App.module.scss';
 import { initialProjectList } from './constants/initialProjectList';
 
-const FloorCheckerWithWallet = React.lazy(() => import('./views/FloorCheckerWithWallet'));
+const FloorCheckerWithWallet = React.lazy(() =>
+  import('./views/FloorCheckerWithWallet')
+);
 
 function App() {
+  console.log('react app kutya', process.env.REACT_APP_KUTYA);
+  console.log('sima kutya', process.env.KUTYA);
   const [page, setPage] = useState('landing');
   const [projectList, setProjectList] = useLocalStorage(
     'fcProjectList',
@@ -26,31 +30,40 @@ function App() {
 
   useEffect(() => {
     if (!projectList.length) {
-      setProjectList(initialProjectList)
+      setProjectList(initialProjectList);
     }
-  }, [projectList.length, setProjectList])
+  }, [projectList.length, setProjectList]);
 
-  const handleProjectDrag = useCallback(result => {
-    const updatedList = [...projectList];
-    const [reorderedItem] = updatedList.splice(result.source.index, 1);
-    updatedList.splice(result.destination.index, 0, reorderedItem);
-    setProjectList(updatedList);
-  }, [projectList, setProjectList]);
+  const handleProjectDrag = useCallback(
+    result => {
+      const updatedList = [...projectList];
+      const [reorderedItem] = updatedList.splice(result.source.index, 1);
+      updatedList.splice(result.destination.index, 0, reorderedItem);
+      setProjectList(updatedList);
+    },
+    [projectList, setProjectList]
+  );
 
-  const handleOwnProjectDrag = useCallback(result => {
-    const updatedList = [...ownProjectList];
-    const [reorderedItem] = updatedList.splice(result.source.index, 1);
-    updatedList.splice(result.destination.index, 0, reorderedItem);
-    setOwnProjectList(updatedList);
-  }, [ownProjectList, setOwnProjectList]);
+  const handleOwnProjectDrag = useCallback(
+    result => {
+      const updatedList = [...ownProjectList];
+      const [reorderedItem] = updatedList.splice(result.source.index, 1);
+      updatedList.splice(result.destination.index, 0, reorderedItem);
+      setOwnProjectList(updatedList);
+    },
+    [ownProjectList, setOwnProjectList]
+  );
 
-  const handleDragEnd = useCallback((result) => {
-    if (page === 'floorChecker') {
-      handleProjectDrag(result);
-    } else {
-      handleOwnProjectDrag(result);
-    }
-  }, [handleOwnProjectDrag, handleProjectDrag, page]);
+  const handleDragEnd = useCallback(
+    result => {
+      if (page === 'floorChecker') {
+        handleProjectDrag(result);
+      } else {
+        handleOwnProjectDrag(result);
+      }
+    },
+    [handleOwnProjectDrag, handleProjectDrag, page]
+  );
 
   return (
     <div className={classes.app}>

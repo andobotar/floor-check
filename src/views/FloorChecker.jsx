@@ -12,7 +12,7 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
   const { windowWidth } = useWindowSize();
 
   const [isMenuOpen, setIsMenuOpen] = useState({});
-  const [projectLink, setProjectLink] = useState();
+  const [projectLink, setProjectLink] = useState('');
 
   const handleChange = e => {
     setProjectLink(e.target.value);
@@ -21,7 +21,7 @@ export default function FloorChecker({ projectList, setPage, setProjectList }) {
   const handleSave = async () => {
     const lastSlashIndex = projectLink.lastIndexOf('/');
     const slug = projectLink.substring(lastSlashIndex + 1);
-    const { name, imageUrl } = await fetchNameAndImg(slug)
+    const { name, imageUrl } = await fetchNameAndImg(slug);
 
     setProjectList([
       ...projectList,

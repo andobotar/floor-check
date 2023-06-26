@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import { alchemy } from '../utils/alchemy';
 
+const apiki = process.env.REACT_APP_OPENSEA_API_KEY;
+axios.defaults.headers.common['X-API-KEY'] = apiki;
+
 export const fetchProjectStats = async projectName =>
   await axios.get(
     `https://api.opensea.io/api/v1/collection/${projectName}/stats`
@@ -29,6 +32,6 @@ export const fetchNameAndImg = async projectSlug => {
 };
 
 export const getFloorByContractAddress = async address => {
-  const resp = await alchemy.nft.getFloorPrice(address)
-  console.log({ resp })
-}
+  const resp = await alchemy.nft.getFloorPrice(address);
+  console.log('getFloorByContractAddress resp', resp);
+};
