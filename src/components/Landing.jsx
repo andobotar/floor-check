@@ -6,13 +6,13 @@ export default function Landing({ setPage }) {
   return (
     <div className={classes.container}>
       <div onClick={() => setPage('floorChecker')} className={classes.button}>
-        FLOOR CHECKER - ANY NFT
+        FLOOR CHECKER: ANY NFT
       </div>
       <div
         onClick={() => setPage('floorCheckerWithWallet')}
         className={classes.button}
       >
-        FLOOR CHECKER - MY NFTs
+        FLOOR CHECKER: MY NFTs
       </div>
     </div>
   );
