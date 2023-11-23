@@ -92,7 +92,6 @@ export default function Floor({
                   openseaLink={`https://opensea.io/collection/${project.slug}`}
                   openseaProLink={`https://pro.opensea.io/collection/${project.slug}`}
                   blurioLink={`https://blur.io/collection/${project.slug}`}
-                  gigamartLink={`https://gigamart.com/collections/${project.slug}`}
                   toggleShowModal={toggleShowModal}
                 />
               ) : null}
