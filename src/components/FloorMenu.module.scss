@@ -6,29 +6,32 @@
     right: 0;
     background-color: $header-background;
     color: white;
-    width: 192px;
+    width: 152px;
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     box-shadow: 1px 4px 12px #826527;
-    
+
     .menuItem {
-        font-size: 18px;
-        width: 160px;
+        font-size: 15px;
+        width: 120px;
         height: 32px;
-        padding: 8px 16px;
+        padding: 8px 12px 8px 8px;
         display: flex;
-        justify-content: flex-end;
         align-items: center;
+        gap: 8px;
+        color: white;
+        text-decoration: none;
 
         &:hover {
             background-color: lighten($header-background, 5%);
         }
 
-        a {
-            color: white;
-            text-decoration: none;
+        .logo {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
         }
     }
 }
