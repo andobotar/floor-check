@@ -10,14 +10,18 @@ import questionMark from '../assets/question-mark.png';
 
 import classes from '../App.module.scss';
 
-let provider
+let provider;
 try {
-  provider = new ethers.providers.Web3Provider(window.ethereum);
+  provider = new ethers.BrowserProvider(window.ethereum);
 } catch (e) {
-  console.warn('web3provider not found', e)
+  console.warn('web3provider not found', e);
 }
 
-export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwnProjectList }) {
+export default function FloorCheckerWithWallet({
+  ownProjectList,
+  setPage,
+  setOwnProjectList
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState({});
   const [connectedWallet, setConnectedWallet] = useState('');
 
@@ -32,13 +36,13 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
 
   const connectWallet = async () => {
     if (!provider) {
-      alert('Install Metamask, please')
-      return
+      alert('Install Metamask, please');
+      return;
     }
     // 'eth_requestAccounts' returns an array with one element (always one, LOL)
     const accounts = await provider.send('eth_requestAccounts', []);
     console.log({ accounts });
-    setConnectedWallet(accounts[0])
+    setConnectedWallet(accounts[0]);
     // const signer = provider.getSigner();
     // setConnectedWallet(signer.provider.provider.selectedAddress);
   };
@@ -46,9 +50,9 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
   const fetchMyProjects = useCallback(async () => {
     if (!ownProjectList.length) {
       const myProjects = await fetchMyNfts(connectedWallet);
-      console.log({ myProjects })
-      
-      let myProjectList
+      console.log({ myProjects });
+
+      let myProjectList;
       if (!myProjects.data.length) {
         myProjectList = [
           {
@@ -65,12 +69,12 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
           imageUrl: project.image_url || questionMark,
           name: project.name,
           floor: project.stats.floor_price,
-          stats: project.stats,
+          stats: project.stats
         }));
       }
 
       console.log({ myProjects, myProjectList });
-      setOwnProjectList(myProjectList)
+      setOwnProjectList(myProjectList);
     }
   }, [connectedWallet, ownProjectList.length, setOwnProjectList]);
 
@@ -96,7 +100,9 @@ export default function FloorCheckerWithWallet({ ownProjectList, setPage, setOwn
       </div>
 
       {!provider ? (
-        <p style={{ paddingTop: 120, textAlign: 'center' }}>you need to install metamask</p>
+        <p style={{ paddingTop: 120, textAlign: 'center' }}>
+          you need to install metamask
+        </p>
       ) : (
         <>
           <Droppable droppableId="floorCards">
